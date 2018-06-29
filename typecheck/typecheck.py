@@ -31,25 +31,20 @@ class TypeCheck(object):
         mypy stdout and stderr will print prior to output of cell. If there are no conflicts,
         nothing will be printed by mypy.
         """
-
-        # from IPython import get_ipython
-        from mypy import api
-        import sys
-
+        cell = info.raw_cell
         # inserting a newline at the beginning of the cell
         # ensures mypy's output matches the the line
         # numbers in jupyter
+        mycell = '\n' + cell
+
         # print('Info: ', info)
         # print('Cell code: "%s"' % info.raw_cell)
-        print("input_cells:", "\n".join(self.shell.user_ns['In']))
-        cell = info.raw_cell
-        mycell = '\n' + cell
-        mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
+        # print("input_cells:", "\n".join(self.shell.user_ns['In']))        
 
+        from mypy import api
+        mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
         if mypy_result[0]:
-            print(mypy_result[0], file=sys.stderr)
+            raise TypeError(mypy_result[0])
         if mypy_result[1]:
-            print(mypy_result[1], file=sys.stderr)
-        if mypy_result[0] or mypy_result[1]:
-            # don't run cell
-            return False
+            # print(mypy_result[1], file=sys.stderr)
+            raise TypeError(mypy_result[1])
