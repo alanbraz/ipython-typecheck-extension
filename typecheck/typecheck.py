@@ -43,6 +43,8 @@ class TypeCheck(object):
         # print("input_cells:", "\n".join(self.shell.user_ns['In']))
 
         from mypy import api
+        import sys
+        
         mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
         if mypy_result[0]:
             print(mypy_result[0], file=sys.stderr)
