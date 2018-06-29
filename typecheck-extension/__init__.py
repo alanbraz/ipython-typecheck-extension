@@ -4,6 +4,7 @@ from IPython.core.magics.execution import _format_time as format_delta
 import time
 from __future__ import print_function
 
+
 class LineWatcher(object):
     """
     Class that implements a basic timer.
@@ -22,12 +23,15 @@ class LineWatcher(object):
             assert diff > 0
             print('time: {}'.format(format_delta(diff)))
 
+
 timer = LineWatcher()
+
 
 def load_ipython_extension(ipython):
     ipython.events.register('pre_run_cell', timer.start)
     ipython.events.register('post_run_cell', timer.stop)
     ipython.register_magics(TypeCheck)
+
 
 def unload_ipython_extension(ipython):
     ipython.events.unregister('pre_run_cell', timer.start)
