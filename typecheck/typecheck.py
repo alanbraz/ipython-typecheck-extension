@@ -36,15 +36,18 @@ class TypeCheck(object):
         # ensures mypy's output matches the the line
         # numbers in jupyter
         mycell = '\n' + cell
+        # TODO send all previous code cells, instead of current cell
 
         # print('Info: ', info)
         # print('Cell code: "%s"' % info.raw_cell)
-        # print("input_cells:", "\n".join(self.shell.user_ns['In']))        
+        # print("input_cells:", "\n".join(self.shell.user_ns['In']))
 
         from mypy import api
         mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
         if mypy_result[0]:
-            raise TypeError(mypy_result[0])
+            print(mypy_result[0], file=sys.stderr)
         if mypy_result[1]:
-            # print(mypy_result[1], file=sys.stderr)
-            raise TypeError(mypy_result[1])
+            print(mypy_result[1], file=sys.stderr)
+
+        # TODO try to abort cell to run if typecheck error
+        # TODO replace api.run by HTTP request call
