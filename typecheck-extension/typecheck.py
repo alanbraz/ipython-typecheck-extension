@@ -35,6 +35,8 @@ class LineWatcher(object):
             assert diff > 0
             print('time: {}'.format(format_delta(diff)))
 
+timer = LineWatcher()
+
 @magics_class
 class TypeCheck(Magics):
 
