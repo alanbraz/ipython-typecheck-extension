@@ -40,10 +40,11 @@ class TypeCheck(object):
         # inserting a newline at the beginning of the cell
         # ensures mypy's output matches the the line
         # numbers in jupyter
+        print('Info: ', info)
         print('Cell code: "%s"' % info.raw_cell)
         cell = info.raw_cell
         mycell = '\n' + cell
-        mypy_result = api.run(['-c', mycell] + line.split())
+        mypy_result = api.run(['-c', mycell] + '\n')
 
         if mypy_result[0]:
             print(mypy_result[0], file=sys.stderr)

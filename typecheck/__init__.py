@@ -2,27 +2,23 @@
 from .typecheck import TypeCheck
 from .autotime import timer
 
-__version__ = "0.1"
+__version__ = "0.2"
 
 class VarWatcher(object):
     def __init__(self, ip):
         self.shell = ip
-        self.last_x = None
-
-    def pre_execute(self):
-        self.last_x = self.shell.user_ns.get('x', None)
 
     def pre_run_cell(self, info):
         print('Cell code: "%s"' % info.raw_cell)
+        print("info", info)
 
-    def post_execute(self):
-        if self.shell.user_ns.get('x', None) != self.last_x:
-            print("x changed!")
-
-    def post_run_cell(self, result):
-        print('Cell code: "%s"' % result.info.raw_cell)
-        if result.error_before_exec:
-            print('Error before execution: %s' % result.error_before_exec)
+    def post_run_cell(self, result=None):
+        if result is not None:
+            print('Cell code: "%s"' % result.info.raw_cell)
+            if result.error_before_exec:
+                print('Error before execution: %s' % result.error_before_exec)
+        else:
+            print("No result.")
 
 def load_ipython_extension(ipython):
     # ipython.events.register('pre_run_cell', typecheck.check)
@@ -31,9 +27,7 @@ def load_ipython_extension(ipython):
     tc = TypeCheck(ipython)
     ipython.events.register('pre_run_cell', tc.check)
     vw = VarWatcher(ipython)
-    ipython.events.register('pre_execute', vw.pre_execute)
     ipython.events.register('pre_run_cell', vw.pre_run_cell)
-    ipython.events.register('post_execute', vw.post_execute)
     ipython.events.register('post_run_cell', vw.post_run_cell)
 
 
