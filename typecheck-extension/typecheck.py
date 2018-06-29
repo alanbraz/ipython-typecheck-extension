@@ -11,31 +11,7 @@ package.
 """
 
 from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
-from IPython.core.magics.execution import _format_time as format_delta
-import sys, time
-from __future__ import print_function
-
-class LineWatcher(object):
-    """Class that implements a basic timer.
-
-    Notes
-    -----
-    * Register the `start` and `stop` methods with the IPython events API.
-    """
-    def __init__(self):
-        self.start_time = 0.0
-
-    def start(self):
-        self.start_time = time.time()
-
-    def stop(self):
-        stop_time = time.time()
-        if self.start_time:
-            diff = stop_time - self.start_time
-            assert diff > 0
-            print('time: {}'.format(format_delta(diff)))
-
-timer = LineWatcher()
+import sys
 
 @magics_class
 class TypeCheck(Magics):
