@@ -17,21 +17,6 @@ class TypeCheck(object):
         self.shell = ip
         self.last_x = None
 
-    def pre_execute(self):
-        self.last_x = self.shell.user_ns.get('x', None)
-
-    def pre_run_cell(self, info):
-        print('Cell code: "%s"' % info.raw_cell)
-
-    def post_execute(self):
-        if self.shell.user_ns.get('x', None) != self.last_x:
-            print("x changed!")
-
-    def post_run_cell(self, result):
-        print('Cell code: "%s"' % result.info.raw_cell)
-        if result.error_before_exec:
-            print('Error before execution: %s' % result.error_before_exec)
-
     def check(self, info):
         print("typecheck...")
         """
