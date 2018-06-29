@@ -15,6 +15,7 @@ class TypeCheck(object):
     """
     def __init__(self, ip):
         self.shell = ip
+        self.input_cells = ip.user_ns['In']
         self.last_x = None
 
     def check(self, info):
@@ -40,8 +41,9 @@ class TypeCheck(object):
         # inserting a newline at the beginning of the cell
         # ensures mypy's output matches the the line
         # numbers in jupyter
-        print('Info: ', info)
-        print('Cell code: "%s"' % info.raw_cell)
+        # print('Info: ', info)
+        # print('Cell code: "%s"' % info.raw_cell)
+        print("input_cells", self.input_cells)
         cell = info.raw_cell
         mycell = '\n' + cell
         mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
