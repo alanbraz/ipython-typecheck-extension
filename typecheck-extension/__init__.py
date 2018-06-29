@@ -1,10 +1,13 @@
-from .typecheck import TypeCheck
+from .typecheck import TypeCheck, LineWatcher
+
+timer = LineWatcher()
 
 def load_ipython_extension(ipython):
-    # The `ipython` argument is the currently active `InteractiveShell`
-    # instance, which can be used in any way. This allows you to register
-    # new magics or aliases, for example.
+    ipython.events.register('pre_run_cell', timer.start)
+    ipython.events.register('post_run_cell', timer.stop)
     ipython.register_magics(TypeCheck)
 
-#def unload_ipython_extension(ipython):
-    # If you want your extension to be unloadable, put that logic here.
+
+def unload_ipython_extension(ipython):
+    ipython.events.unregister('pre_run_cell', timer.start)
+    ipython.events.unregister('post_run_cell', timer.stop)
