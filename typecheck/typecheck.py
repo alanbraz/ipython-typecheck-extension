@@ -52,3 +52,6 @@ class TypeCheck(object):
             print(mypy_result[0], file=sys.stderr)
         if mypy_result[1]:
             print(mypy_result[1], file=sys.stderr)
+        if mypy_result[0] or mypy_result[1]:
+            # don't run cell
+            self.shell.run_cell("")
