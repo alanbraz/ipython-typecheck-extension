@@ -4,9 +4,15 @@ from .autotime import timer
 
 
 def load_ipython_extension(ipython):
+    # ipython.events.register('pre_run_cell', typecheck.check)
     ipython.events.register('pre_run_cell', timer.start)
     ipython.events.register('post_run_cell', timer.stop)
-    ipython.register_magics(TypeCheck)
+    tc = TypeCheck(ipython)
+    ipython.events.register('pre_execute', tc.pre_execute)
+    ipython.events.register('pre_run_cell', tc.pre_run_cell)
+    ipython.events.register('pre_run_cell', tc.check)
+    ipython.events.register('post_execute', tc.post_execute)
+    ipython.events.register('post_run_cell', tc.post_run_cell)
 
 
 def unload_ipython_extension(ipython):

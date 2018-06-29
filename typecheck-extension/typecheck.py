@@ -9,20 +9,31 @@ the default profile.
 The line magic is called "typecheck" to avoid namespace conflict with the mypy
 package.
 """
+class TypeCheck(object):
+    """
+    Class that implements a basic timer.
+    """
+    def __init__(self, ip):
+        self.shell = ip
+        self.last_x = None
 
-from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
-import sys
+    def pre_execute(self):
+        self.last_x = self.shell.user_ns.get('x', None)
 
-@magics_class
-class TypeCheck(Magics):
+    def pre_run_cell(self, info):
+        print('Cell code: "%s"' % info.raw_cell)
 
-    @line_magic
-    def linelen(self, line):
-        "my line magic"
-        return len(line)
+    def post_execute(self):
+        if self.shell.user_ns.get('x', None) != self.last_x:
+            print("x changed!")
 
-    @cell_magic
-    def typecheck(self, line, cell):
+    def post_run_cell(self, result):
+        print('Cell code: "%s"' % result.info.raw_cell)
+        if result.error_before_exec:
+            print('Error before execution: %s' % result.error_before_exec)
+
+    def check(self, info):
+        print("typecheck...")
         """
         Run the following cell though mypy.
         Any parameters that would normally be passed to the mypy cli
@@ -39,22 +50,17 @@ class TypeCheck(Magics):
 
         # from IPython import get_ipython
         from mypy import api
+        import sys
 
         # inserting a newline at the beginning of the cell
         # ensures mypy's output matches the the line
         # numbers in jupyter
-
+        print('Cell code: "%s"' % info.raw_cell)
+        cell = info.raw_cell
         mycell = '\n' + cell
-
         mypy_result = api.run(['-c', mycell] + line.split())
-        print("typecheck...")
 
-        if mypy_result[0] or mypy_result[1]:  # print mypy stdout
-            if mypy_result[0]:
-                print(mypy_result[0], file=sys.stderr)
-            if mypy_result[1]:
-                print(mypy_result[1], file=sys.stderr)
-        else:
-            return cell
-            # shell = get_ipython()
-            # shell.run_cell(cell)
+        if mypy_result[0]:
+            print(mypy_result[0], file=sys.stderr)
+        if mypy_result[1]:
+            print(mypy_result[1], file=sys.stderr)
