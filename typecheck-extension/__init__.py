@@ -1,3 +1,5 @@
+"""Experimental packege for IPython extension."""
+
 from .typecheck import TypeCheck
 
 
