@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="ipython-typecheck-extension",
-    version="0.0.1",
+    version="0.0.2",
     author="Alan Braz",
     author_email="alanbraz@gmail.com",
     description="IPython typecheck extension for notebook\' multiple cells.",
