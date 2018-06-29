@@ -46,8 +46,10 @@ class TypeCheck(object):
         mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
         if mypy_result[0]:
             print(mypy_result[0], file=sys.stderr)
+            return None, None
         if mypy_result[1]:
             print(mypy_result[1], file=sys.stderr)
+            return None, None
 
         # TODO try to abort cell to run if typecheck error
         # TODO replace api.run by HTTP request call
