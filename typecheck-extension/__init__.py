@@ -6,5 +6,5 @@ def load_ipython_extension(ipython):
     # new magics or aliases, for example.
     ipython.register_magics(TypeCheck)
 
-def unload_ipython_extension(ipython):
+#def unload_ipython_extension(ipython):
     # If you want your extension to be unloadable, put that logic here.
