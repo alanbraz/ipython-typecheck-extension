@@ -37,7 +37,7 @@ class TypeCheck(Magics):
         nothing will be printed by mypy.
         """
 
-        from IPython import get_ipython
+        # from IPython import get_ipython
         from mypy import api
 
         # inserting a newline at the beginning of the cell
@@ -55,5 +55,6 @@ class TypeCheck(Magics):
             if mypy_result[1]:
                 print(mypy_result[1], file=sys.stderr)
         else:
-            shell = get_ipython()
-            shell.run_cell(cell)
+            return cell
+            # shell = get_ipython()
+            # shell.run_cell(cell)
