@@ -15,8 +15,6 @@ class TypeCheck(object):
     """
     def __init__(self, ip):
         self.shell = ip
-        self.input_cells = ip.user_ns['In']
-        self.last_x = None
 
     def check(self, info):
         print("typecheck...")
@@ -43,7 +41,8 @@ class TypeCheck(object):
         # numbers in jupyter
         # print('Info: ', info)
         # print('Cell code: "%s"' % info.raw_cell)
-        print("input_cells", self.input_cells)
+        print("user_ns:", self.shell.user_ns)
+        print("input_cells:", "\n".join(self.shell.user_ns['In']))
         cell = info.raw_cell
         mycell = '\n' + cell
         mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
@@ -54,4 +53,4 @@ class TypeCheck(object):
             print(mypy_result[1], file=sys.stderr)
         if mypy_result[0] or mypy_result[1]:
             # don't run cell
-            self.shell.run_cell("")
+            self.shell.run_cell("trying to abort")
