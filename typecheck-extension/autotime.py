@@ -1,6 +1,6 @@
+from __future__ import print_function
 from IPython.core.magics.execution import _format_time as format_delta
 import time
-from __future__ import print_function
 
 
 class LineWatcher(object):
