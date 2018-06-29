@@ -11,47 +11,29 @@ package.
 """
 class TypeCheck(object):
     """
-    Class that implements a basic timer.
+    Class that implements mypy call.
     """
     def __init__(self, ip):
         self.shell = ip
 
     def check(self, info):
-        print("typecheck...")
+        # print("typecheck...")
+        from mypy import api
+        import sys
         """
         Run the following cell though mypy.
         Any parameters that would normally be passed to the mypy cli
         can be passed on the first line, with the exception of the
         -c flag we use to pass the code from the cell we want to execute
-         i.e.
-        %%typecheck --ignore-missing-imports
-        ...
-        ...
-        ...
-        mypy stdout and stderr will print prior to output of cell. If there are no conflicts,
-        nothing will be printed by mypy.
+        mypy stdout and stderr will print prior to output of cell.
+        If there are no conflicts, mnothing will be printed by mypy.
         """
-        cell = info.raw_cell
-        # inserting a newline at the beginning of the cell
-        # ensures mypy's output matches the the line
-        # numbers in jupyter
-        mycell = '\n' + cell
+        mycell = info.raw_cell
         # TODO send all previous code cells, instead of current cell
-
-        # print('Info: ', info)
-        # print('Cell code: "%s"' % info.raw_cell)
-        # print("input_cells:", "\n".join(self.shell.user_ns['In']))
-
-        from mypy import api
-        import sys
-        
         mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
         if mypy_result[0]:
-            print(mypy_result[0], file=sys.stderr)
-            return None, None
+            print("TypeCheck: " + mypy_result[0], file=sys.stderr)
         if mypy_result[1]:
-            print(mypy_result[1], file=sys.stderr)
-            return None, None
+            print("TypeCheck: " + mypy_result[1], file=sys.stderr)
 
-        # TODO try to abort cell to run if typecheck error
-        # TODO replace api.run by HTTP request call
+        # TODO try to abort cell to run if typecheck error, return False or return None, None don't work
