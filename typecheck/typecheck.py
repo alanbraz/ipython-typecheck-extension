@@ -44,7 +44,7 @@ class TypeCheck(object):
         print('Cell code: "%s"' % info.raw_cell)
         cell = info.raw_cell
         mycell = '\n' + cell
-        mypy_result = api.run(['-c', mycell] + '\n')
+        mypy_result = api.run(['-c', mycell, '--ignore-missing-imports'])
 
         if mypy_result[0]:
             print(mypy_result[0], file=sys.stderr)
