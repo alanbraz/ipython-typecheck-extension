@@ -10,46 +10,50 @@ The line magic is called "typecheck" to avoid namespace conflict with the mypy
 package.
 """
 
-from IPython.core.magic import register_cell_magic
-#from __future__ import print_function
+from IPython.core.magic import (Magics, magics_class, line_magic, cell_magic)
 import sys
 
-#def eprint(*args, **kwargs):
-    #print(*args, file=sys.stderr, **kwargs)
+@magics_class
+class TypeCheck(Magics):
 
-@register_cell_magic
-def typecheck(line, cell):
-    """
-    Run the following cell though mypy.
-    Any parameters that would normally be passed to the mypy cli
-    can be passed on the first line, with the exception of the
-    -c flag we use to pass the code from the cell we want to execute
-     i.e.
-    %%typecheck --ignore-missing-imports
-    ...
-    ...
-    ...
-    mypy stdout and stderr will print prior to output of cell. If there are no conflicts,
-    nothing will be printed by mypy.
-    """
+    @line_magic
+    def linelen(self, line):
+        "my line magic"
+        return len(line)
 
-    from IPython import get_ipython
-    from mypy import api
+    @cell_magic
+    def typecheck(self, line, cell):
+        """
+        Run the following cell though mypy.
+        Any parameters that would normally be passed to the mypy cli
+        can be passed on the first line, with the exception of the
+        -c flag we use to pass the code from the cell we want to execute
+         i.e.
+        %%typecheck --ignore-missing-imports
+        ...
+        ...
+        ...
+        mypy stdout and stderr will print prior to output of cell. If there are no conflicts,
+        nothing will be printed by mypy.
+        """
 
-    # inserting a newline at the beginning of the cell
-    # ensures mypy's output matches the the line
-    # numbers in jupyter
+        from IPython import get_ipython
+        from mypy import api
 
-    mycell = '\n' + cell
+        # inserting a newline at the beginning of the cell
+        # ensures mypy's output matches the the line
+        # numbers in jupyter
 
-    mypy_result = api.run(['-c', mycell] + line.split())
-    #print("mypy_result",mypy_result)
+        mycell = '\n' + cell
 
-    if mypy_result[0] or mypy_result[1]:  # print mypy stdout
-        if mypy_result[0]:
-            print(mypy_result[0], file=sys.stderr)
-        if mypy_result[1]:
-            print(mypy_result[1], file=sys.stderr)
-    else:
-        shell = get_ipython()
-        shell.run_cell(cell)
+        mypy_result = api.run(['-c', mycell] + line.split())
+        #print("mypy_result",mypy_result)
+
+        if mypy_result[0] or mypy_result[1]:  # print mypy stdout
+            if mypy_result[0]:
+                print(mypy_result[0], file=sys.stderr)
+            if mypy_result[1]:
+                print(mypy_result[1], file=sys.stderr)
+        else:
+            shell = get_ipython()
+            shell.run_cell(cell)
