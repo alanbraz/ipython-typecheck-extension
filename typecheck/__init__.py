@@ -26,11 +26,12 @@ def load_ipython_extension(ipython):
     ipython.events.register('post_run_cell', timer.stop)
     tc = TypeCheck(ipython)
     ipython.events.register('pre_run_cell', tc.check)
-    vw = VarWatcher(ipython)
-    ipython.events.register('pre_run_cell', vw.pre_run_cell)
-    ipython.events.register('post_run_cell', vw.post_run_cell)
+    # vw = VarWatcher(ipython)
+    # ipython.events.register('pre_run_cell', vw.pre_run_cell)
+    # ipython.events.register('post_run_cell', vw.post_run_cell)
 
 
 def unload_ipython_extension(ipython):
     ipython.events.unregister('pre_run_cell', timer.start)
     ipython.events.unregister('post_run_cell', timer.stop)
+    ipython.events.unregister('pre_run_cell', tc.check)
