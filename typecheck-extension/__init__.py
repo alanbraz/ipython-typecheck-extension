@@ -5,11 +5,9 @@ import time
 from __future__ import print_function
 
 class LineWatcher(object):
-    """Class that implements a basic timer.
-
-    Notes
-    -----
-    * Register the `start` and `stop` methods with the IPython events API.
+    """
+    Class that implements a basic timer.
+    Register the `start` and `stop` methods with the IPython events API.
     """
     def __init__(self):
         self.start_time = 0.0
