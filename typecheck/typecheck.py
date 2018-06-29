@@ -41,7 +41,6 @@ class TypeCheck(object):
         # numbers in jupyter
         # print('Info: ', info)
         # print('Cell code: "%s"' % info.raw_cell)
-        print("user_ns:", self.shell.user_ns)
         print("input_cells:", "\n".join(self.shell.user_ns['In']))
         cell = info.raw_cell
         mycell = '\n' + cell
@@ -53,4 +52,4 @@ class TypeCheck(object):
             print(mypy_result[1], file=sys.stderr)
         if mypy_result[0] or mypy_result[1]:
             # don't run cell
-            self.shell.run_cell("trying to abort")
+            return False
