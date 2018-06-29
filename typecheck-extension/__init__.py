@@ -2,6 +2,7 @@
 from .typecheck import TypeCheck
 from .autotime import timer
 
+__version__ = "0.1"
 
 class VarWatcher(object):
     def __init__(self, ip):

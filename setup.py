@@ -1,11 +1,12 @@
 import setuptools
+from typecheck-extension import __version__
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name="ipython-typecheck-extension",
-    version="0.0.2",
+    version=__version__,
     author="Alan Braz",
     author_email="alanbraz@gmail.com",
     description="IPython typecheck extension for notebook\' multiple cells.",
@@ -15,5 +16,5 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     #packages=['typecheck-extension'],
     install_requires=['mypy'],
-zip_safe=False
+    zip_safe=False
 )
