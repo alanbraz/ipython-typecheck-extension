@@ -17,7 +17,8 @@ class TypeCheck(object):
         self.shell = ip
 
     def check(self, info):
-        # print("typecheck...")
+        print("typecheck...")
+        print("shell", self.shell)
         from mypy import api
         import sys
         """
