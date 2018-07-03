@@ -18,7 +18,7 @@ class TypeCheck(object):
 
     def check(self, info):
         print("typecheck...")
-        print("shell", self.shell)
+        print("user_ns", self.shell.user_ns)
         from mypy import api
         import sys
         """
