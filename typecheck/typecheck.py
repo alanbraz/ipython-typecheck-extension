@@ -24,8 +24,7 @@ class TypeCheck(object):
         if error is not None:
             parts = error.split(":")
             print("parts", parts)
-            print("self.ok_cells split", self.ok_cells.split())
-            print("self.ok_cells lines", len(self.ok_cells.split()))
+            print("self.ok_cells lines", len(self.ok_cells))
             print("cells_to_run split", cells_to_run.split())
             print("cells_to_run lines", len(cells_to_run.split()))
             print("current_cell split", current_cell.split())
