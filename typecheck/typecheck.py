@@ -11,28 +11,26 @@ class TypeCheck(object):
         cells = self.shell.user_ns["In"]
         # print("cells", cells)
         current_cell = cells[-1]
-        print("current_cell", current_cell)
+        # print("current_cell", current_cell)
         current_cell_lines = []
         for line in current_cell.split("\n"):
+            # ignore magic commands
             if "get_ipython" not in line:
                 current_cell_lines.append(line)
         if len(current_cell_lines) > 0:
             current_cell = "\n".join(current_cell_lines)
             cells_to_run = "\n".join(self.ok_cells + [current_cell])
-            print("cells_to_run", cells_to_run)
+            # print("cells_to_run", cells_to_run)
             mypy_result = api.run(['-c', cells_to_run, '--ignore-missing-imports'])
             error = None
             if mypy_result[0]:
                 error = mypy_result[0]
             if mypy_result[1]:
                 error = mypy_result[1]
-            # print("error", error)
             if error is not None:
                 parts = error.split(":")
-                print("parts", parts)
                 line = int(parts[1])
-                print("self.ok_cells lines", len(self.ok_cells))
-                parts[1] = str(line - len(self.ok_cells))
+                parts[1] = str(line - len(cells_to_run.split("\n")) - len(current_cell_lines))
                 error = (":").join(parts)
                 print("TypeCheck: " + error, file=sys.stderr)
             else:
