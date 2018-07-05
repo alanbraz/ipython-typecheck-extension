@@ -30,7 +30,7 @@ class TypeCheck(object):
             if error is not None:
                 parts = error.split(":")
                 line = int(parts[1])
-                parts[1] = str(line - len(cells_to_run.split("\n")) - len(current_cell_lines))
+                parts[1] = str(line - len(("\n".join(self.ok_cells)).split("\n")))
                 error = (":").join(parts)
                 print("TypeCheck: " + error, file=sys.stderr)
             else:
