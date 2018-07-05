@@ -24,9 +24,12 @@ class TypeCheck(object):
         if error is not None:
             parts = error.split(":")
             print("parts", parts)
+            print("self.ok_cells split", self.ok_cells.split())
+            print("self.ok_cells lines", len(self.ok_cells.split()))
+            print("cells_to_run split", cells_to_run.split())
             print("cells_to_run lines", len(cells_to_run.split()))
+            print("current_cell split", current_cell.split())
             print("current_cell lines", len(current_cell.split()))
-            print("TypeCheck: " + error, file=sys.stderr)
             print("TypeCheck: " + error, file=sys.stderr)
         else:
             self.ok_cells.append(current_cell)
