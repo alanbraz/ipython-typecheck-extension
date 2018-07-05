@@ -15,10 +15,13 @@ class TypeCheck(object):
         cells_to_run = "\n".join(self.ok_cells + [current_cell])
         # print("cells_to_run", cells_to_run)
         mypy_result = api.run(['-c', cells_to_run, '--ignore-missing-imports'])
-        if mypy_result[0] or mypy_result[1]:
-            if mypy_result[0]:
-                print("TypeCheck: " + mypy_result[0], file=sys.stderr)
-            if mypy_result[1]:
-                print("TypeCheck: " + mypy_result[1], file=sys.stderr)
+        error = None
+        if mypy_result[0]:
+            error = mypy_result[0]
+        if mypy_result[1]:
+            error = mypy_result[1]
+        print("error", error)
+        if error is not None or error != '':
+            print("TypeCheck: " + error, file=sys.stderr)
         else:
             self.ok_cells.append(current_cell)
