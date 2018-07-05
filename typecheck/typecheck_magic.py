@@ -57,6 +57,5 @@ class TypeCheck(Magics):
             if mypy_result[1]:
                 print(mypy_result[1], file=sys.stderr)
         else:
-            return cell
-            # shell = get_ipython()
-            # shell.run_cell(cell)
+            shell = get_ipython()
+            shell.run_cell(cell)
