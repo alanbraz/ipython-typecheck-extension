@@ -3,7 +3,7 @@ from .typecheck import TypeCheck
 # from .autotime import timer
 # from .typecheck_magic import TypeCheck as tcMagic
 
-__version__ = "0.5"
+__version__ = "0.6"
 
 def load_ipython_extension(ipython):
     # ipython.events.register('pre_run_cell', timer.start)
