@@ -20,8 +20,8 @@ class TypeCheck(object):
             error = mypy_result[0]
         if mypy_result[1]:
             error = mypy_result[1]
-        print("error", error)
-        if error is not None or error != '':
+        # print("error", error)
+        if error is not None:
             print("TypeCheck: " + error, file=sys.stderr)
         else:
             self.ok_cells.append(current_cell)
