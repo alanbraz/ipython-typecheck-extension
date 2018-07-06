@@ -30,9 +30,12 @@ class TypeCheck(object):
                 error = mypy_result[1]
             if error is not None:
                 parts = error.split(":")
-                line = int(parts[1])
-                parts[1] = str(line - len(("\n".join(self.ok_cells)).split("\n")))
-                error = (":").join(parts)
-                print("TypeCheck: " + error, file=sys.stderr)
+                error_line_number = int(parts[1])
+                error_column_number = int(parts[2])
+                error_line_number = error_line_number - len(("\n".join(self.ok_cells)).split("\n"))
+                parts[1] = str(error_line_number)
+                error = (":").join(parts) + "\n" + current_cell_lines[error_line_number-1]
+                error = error + "\n" + (error_column_number-1)*" " + "^"
+                print("TypeCheck: " + error , file=sys.stderr)
             else:
                 self.ok_cells.append(current_cell)
