@@ -3,6 +3,7 @@ class TypeCheck(object):
     def __init__(self, ip):
         self.shell = ip
         self.ok_cells = [ "import os", "os.environ['MYPYPATH'] = os.environ['PYTHONPATH']" ]
+        ip.run_cell("\n".join(self.ok_cells))
 
     def check(self):
         # print("typecheck...")
