@@ -35,7 +35,7 @@ class TypeCheck(object):
                 error_line_number = error_line_number - len(("\n".join(self.ok_cells)).split("\n"))
                 
                 line_label = "Line "+ str(error_line_number) + ": "
-                error_message = "TypeCheck" + parts[3] + ": " + parts[4]
+                error_message = "TypeCheck" + parts[3] + ":" + parts[4]
                 error_message = error_message + "\n" + line_label + current_cell_lines[error_line_number-1]
                 error_message = error_message + "\n" + len(line_label)*" "+ (error_column_number-1)*" " + "^"
                 print(error_message, file=sys.stderr)
